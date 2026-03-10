@@ -16,8 +16,8 @@ export function usePageTracking() {
                 else {
                     pageName = pageName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                 }
-
-                await fetch('http://localhost:3001/api/stats/view', {
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+                await fetch(`${apiUrl}/api/stats/view`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
