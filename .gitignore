@@ -1,0 +1,51 @@
+# =======================
+# Secrets & Credentials
+# =======================
+.env
+.env.local
+.env.*.local
+google_oauth2.json
+*.pem
+*.key
+
+
+# =======================
+# Dependencies
+# =======================
+node_modules/
+
+# =======================
+# Build Output
+# =======================
+dist/
+dist-ssr/
+build/
+
+# =======================
+# Vite / TypeScript Cache
+# =======================
+*.local
+.vite/
+*.tsbuildinfo
+
+# =======================
+# Editor & OS Artifacts
+# =======================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# =======================
+# Logs
+# =======================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log

@@ -22,7 +22,7 @@ export function LandingPage() {
             Reduce cloud costs by up to 60% with intelligent optimization recommendations, security scanning, and automated fixes.
           </p>
           <button
-            onClick={() => navigate('/connect')}
+            onClick={() => navigate('/login')}
             className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 rounded-lg text-lg font-semibold shadow-lg shadow-emerald-500/50 transition-all duration-300 hover:shadow-emerald-500/70 hover:scale-105"
           >
             Get Started

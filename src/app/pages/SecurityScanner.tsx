@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import { Sidebar } from '../components/Sidebar';
 import { TopBar } from '../components/TopBar';
 import { Shield, AlertTriangle, Lock, Globe, Database } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+import { fetchGcpResources } from '../lib/gcpApi';
 
 const securityRisks = [
   {
@@ -72,12 +74,75 @@ const riskCategories = [
 export function SecurityScanner() {
   const securityScore = 68;
 
+  const [resources, setResources] = useState<Record<string, number>>({});
+  const [loadingResources, setLoadingResources] = useState(true);
+
+  useEffect(() => {
+    fetchGcpResources().then((data) => {
+      if (data) setResources(data.byType);
+      setLoadingResources(false);
+    });
+  }, []);
+
+  // Build live risk categories from real resource counts
+  const liveCategories = [
+    {
+      name: 'IAM Service Accounts',
+      count: resources['ServiceAccount'] ?? null,
+      icon: Lock,
+    },
+    {
+      name: 'Storage Buckets',
+      count: resources['Bucket'] ?? null,
+      icon: Globe,
+    },
+    {
+      name: 'VM Instances',
+      count: resources['Instance'] ?? null,
+      icon: AlertTriangle,
+    },
+    {
+      name: 'SQL Instances',
+      count: resources['Instance'] !== undefined ? (resources['Instance'] ?? 0) : null,
+      icon: Database,
+    },
+  ];
+
   return (
     <div className="flex h-screen bg-slate-900">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar title="Security Scanner" />
         <main className="flex-1 overflow-y-auto p-8">
+
+          {/* ── Live Resource Inventory Banner ──────────────── */}
+          <div className="mb-6 p-4 bg-slate-950 border border-emerald-500/20 rounded-xl">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Live Resource Inventory (GCP Cloud Asset API)</p>
+              <span className="text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live Data</span>
+            </div>
+            <div className="grid grid-cols-4 gap-3">
+              {liveCategories.map((cat) => (
+                <div key={cat.name} className="flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 rounded-lg">
+                  <cat.icon className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <div>
+                    <p className="text-xs text-slate-500">{cat.name}</p>
+                    {loadingResources ? (
+                      <div className="h-5 w-8 bg-slate-800 animate-pulse rounded mt-0.5" />
+                    ) : (
+                      <p className="text-lg font-bold text-white">
+                        {cat.count !== null ? cat.count : '—'}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {!loadingResources && Object.keys(resources).length === 0 && (
+              <p className="text-xs text-slate-600 mt-2">No assets found — grant Cloud Asset Viewer role to the service account.</p>
+            )}
+          </div>
+
           {/* Security Score Card */}
           <div className="grid grid-cols-3 gap-6 mb-8">
             <div className="col-span-1 bg-gradient-to-br from-slate-950 to-red-950/20 border border-red-500/30 rounded-xl p-8 shadow-lg shadow-red-500/10">
@@ -190,15 +255,14 @@ export function SecurityScanner() {
                       <td className="px-4 py-4 text-sm text-white">{risk.riskType}</td>
                       <td className="px-4 py-4">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            risk.severity === 'critical'
-                              ? 'bg-red-500/20 text-red-400'
-                              : risk.severity === 'high'
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${risk.severity === 'critical'
+                            ? 'bg-red-500/20 text-red-400'
+                            : risk.severity === 'high'
                               ? 'bg-orange-500/20 text-orange-400'
                               : risk.severity === 'medium'
-                              ? 'bg-yellow-500/20 text-yellow-400'
-                              : 'bg-green-500/20 text-green-400'
-                          }`}
+                                ? 'bg-yellow-500/20 text-yellow-400'
+                                : 'bg-green-500/20 text-green-400'
+                            }`}
                         >
                           {risk.severity.toUpperCase()}
                         </span>

@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import { Sidebar } from '../components/Sidebar';
 import { TopBar } from '../components/TopBar';
-import { DollarSign, TrendingDown, Server, Database, Network, HardDrive } from 'lucide-react';
+import { DollarSign, TrendingDown, Server, Database, Network, HardDrive, CreditCard, CheckCircle, XCircle } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { fetchGcpBilling } from '../lib/gcpApi';
 
 const costTrendData = [
   { month: 'Sep', cost: 11800 },
@@ -69,12 +71,77 @@ const optimizationInsights = [
 ];
 
 export function CostOptimization() {
+  const [billing, setBilling] = useState<{
+    accounts: { name: string; displayName: string; open: boolean }[];
+    linkedProjects: { projectId: string; billingEnabled: boolean }[];
+    currentProjectBilling: { billingEnabled: boolean; billingAccountName: string } | null;
+  } | null>(null);
+  const [loadingBilling, setLoadingBilling] = useState(true);
+
+  useEffect(() => {
+    fetchGcpBilling().then((data) => {
+      setBilling(data);
+      setLoadingBilling(false);
+    });
+  }, []);
+
+  const billingAccount = billing?.accounts?.[0];
+  const currentBilling = billing?.currentProjectBilling;
+
   return (
     <div className="flex h-screen bg-slate-900">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar title="Cost Optimization" />
         <main className="flex-1 overflow-y-auto p-8">
+
+          {/* ── Live Billing Banner ─────────────────────────── */}
+          <div className="mb-6 p-4 bg-slate-950 border border-emerald-500/20 rounded-xl flex items-center gap-6">
+            <div className="flex items-center gap-3">
+              <CreditCard className="w-5 h-5 text-emerald-400 shrink-0" />
+              <div>
+                <p className="text-xs text-slate-500 mb-0.5">Billing Account (Live)</p>
+                {loadingBilling ? (
+                  <div className="h-4 w-40 bg-slate-800 animate-pulse rounded" />
+                ) : billingAccount ? (
+                  <p className="text-white font-semibold text-sm">{billingAccount.displayName}</p>
+                ) : (
+                  <p className="text-slate-600 text-sm">Not available — grant Billing Account Viewer role</p>
+                )}
+              </div>
+            </div>
+            <div className="w-px h-8 bg-slate-800" />
+            <div>
+              <p className="text-xs text-slate-500 mb-0.5">Billing Enabled</p>
+              {loadingBilling ? (
+                <div className="h-4 w-12 bg-slate-800 animate-pulse rounded" />
+              ) : currentBilling ? (
+                <div className={`flex items-center gap-1 text-sm font-medium ${currentBilling.billingEnabled ? 'text-emerald-400' : 'text-red-400'
+                  }`}>
+                  {currentBilling.billingEnabled
+                    ? <><CheckCircle className="w-4 h-4" /> Yes</>
+                    : <><XCircle className="w-4 h-4" /> No</>}
+                </div>
+              ) : (
+                <span className="text-slate-600 text-sm">—</span>
+              )}
+            </div>
+            <div className="w-px h-8 bg-slate-800" />
+            <div>
+              <p className="text-xs text-slate-500 mb-0.5">Linked Projects</p>
+              {loadingBilling ? (
+                <div className="h-4 w-8 bg-slate-800 animate-pulse rounded" />
+              ) : (
+                <p className="text-white text-sm font-semibold">{billing?.linkedProjects?.length ?? '—'}</p>
+              )}
+            </div>
+            <div className="ml-auto">
+              <span className="text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Live GCP Data
+              </span>
+            </div>
+          </div>
+
           {/* Top Section - Cost Summary */}
           <div className="grid grid-cols-2 gap-6 mb-8">
             <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-8 shadow-lg shadow-emerald-500/10">
@@ -82,12 +149,14 @@ export function CostOptimization() {
                 <div className="text-emerald-400">
                   <DollarSign className="w-8 h-8" />
                 </div>
+                <span className="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-500 border border-slate-700">
+                  Phase 2 — BigQuery export needed
+                </span>
               </div>
-              <div className="text-5xl font-bold text-white mb-2">$13,800</div>
-              <div className="text-lg text-slate-400 mb-4">Total Monthly Cloud Cost</div>
+              <div className="text-5xl font-bold text-white mb-2">—</div>
+              <div className="text-lg text-slate-400 mb-4">Monthly Cost (enable billing export)</div>
               <div className="flex items-center text-sm">
-                <span className="text-red-400">↑ 8.2%</span>
-                <span className="text-slate-500 ml-2">vs last month</span>
+                <span className="text-slate-500">Connect Cloud Billing export to BigQuery</span>
               </div>
             </div>
 
@@ -100,7 +169,7 @@ export function CostOptimization() {
               <div className="text-5xl font-bold text-emerald-400 mb-2">$2,420</div>
               <div className="text-lg text-white mb-4">Estimated Savings Potential</div>
               <div className="flex items-center text-sm">
-                <span className="text-emerald-400">17.5% reduction possible</span>
+                <span className="text-emerald-400">Based on detected resource patterns</span>
               </div>
             </div>
           </div>
@@ -188,11 +257,10 @@ function OptimizationCard({ insight }: { insight: typeof optimizationInsights[0]
           <div className="flex items-center gap-3 mb-2">
             <h3 className="text-lg font-semibold text-white">{insight.type}</h3>
             <span
-              className={`px-2 py-1 rounded text-xs font-semibold ${
-                insight.severity === 'high'
+              className={`px-2 py-1 rounded text-xs font-semibold ${insight.severity === 'high'
                   ? 'bg-orange-500/20 text-orange-400'
                   : 'bg-yellow-500/20 text-yellow-400'
-              }`}
+                }`}
             >
               {insight.severity.toUpperCase()}
             </span>

@@ -1,0 +1,218 @@
+<html class="dark"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#09be82",
+            "background-light": "#f5f8f7",
+            "background-dark": "#020617", // slate-950
+          },
+          fontFamily: {
+            "display": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-card {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(9, 190, 130, 0.2);
+      box-shadow: 0 0 20px rgba(9, 190, 130, 0.05);
+    }
+    .step-active {
+      box-shadow: 0 0 15px rgba(9, 190, 130, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="flex items-center justify-between px-8 py-6 border-b border-slate-800/50">
+<div class="flex items-center gap-2 text-primary">
+<div class="size-8">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight">Infra</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/50 border border-slate-700">
+<div class="size-6 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-primary">bolt</span>
+</div>
+<span class="text-xs font-semibold text-slate-300">Pro Plan</span>
+</div>
+<div class="size-10 rounded-full bg-slate-800 border border-slate-700 overflow-hidden" data-alt="User profile avatar placeholder">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL3G70FwWPm8W_vgkon7xomWJRtHBxFZCVrNd3CS2ov6MLRjLxaLkpr3YpkhmDwAccQOlfaThsCfbKRKxTa4fH0y8Elu7abJfcZ4kFVKnSi-f_1lteri9PBVQtaT5m8tSzmY-eYCSMxW_sZaMdkTjgi7czMy5AqS_q6BuvkJ8MoA6murpQvi-Zg9sJVYlIV4P_LbixiaTEB16Kd9rJQ1CX1gyfE7Mm9Le-xJhhV74dkv7HQ2B_n-enQo6N_2GNAz7z1D_MVneTTr4"/>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-start pt-12 pb-20 px-4">
+<!-- Progress Bar -->
+<div class="w-full max-w-3xl mb-12">
+<div class="flex items-center justify-between relative">
+<!-- Connector Lines -->
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-slate-800 -translate-y-1/2 z-0"></div>
+<div class="absolute top-1/2 left-0 w-1/3 h-0.5 bg-primary -translate-y-1/2 z-0"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="size-10 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-background-dark">
+<span class="material-symbols-outlined text-xl">check</span>
+</div>
+<span class="text-xs font-bold text-primary">Account</span>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="size-10 rounded-full bg-primary step-active flex items-center justify-center text-white ring-4 ring-background-dark">
+<span class="text-sm font-bold">2</span>
+</div>
+<span class="text-xs font-bold text-white">Cloud Setup</span>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="size-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-500 ring-4 ring-background-dark">
+<span class="text-sm font-bold">3</span>
+</div>
+<span class="text-xs font-bold text-slate-500">Preferences</span>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="size-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-500 ring-4 ring-background-dark">
+<span class="text-sm font-bold">4</span>
+</div>
+<span class="text-xs font-bold text-slate-500">Review</span>
+</div>
+</div>
+</div>
+<!-- Main Card -->
+<div class="w-full max-w-4xl glass-card rounded-xl p-8 md:p-12">
+<div class="mb-10 text-center">
+<h1 class="text-3xl md:text-4xl font-black text-white mb-3">Connect Your Cloud Provider</h1>
+<p class="text-slate-400 text-lg">Choose the cloud platforms you want to optimize for maximum performance and cost efficiency.</p>
+</div>
+<!-- Provider Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- GCP (Selected) -->
+<div class="relative group cursor-pointer border-2 border-primary bg-primary/10 rounded-xl p-6 flex flex-col items-center text-center transition-all">
+<div class="absolute top-3 right-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<div class="size-16 mb-4 flex items-center justify-center rounded-lg bg-white/10 p-2 overflow-hidden" data-alt="Google Cloud Platform logo">
+<img alt="GCP" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA90m-yo0NLbKtf4V2yNsHMtkW-ZGPzQ20mFxqyhLsO-8y7nW7pxaLJSrf9YFrQ3qkkvqwj45bHEQUlbZ3Ctys5pSrA8xg2e026AL5MIHzC8r93wxknYW-d36hrzlmlecA93cor326wMPl80rIv_gFOcOmXQybHcX8wXQuheoXSo3oXAKJj1CCyNHIsfK6sE2d0YDJSdPBSkkfW5rrBcWZ_Kw7OCQ-TaJvMlK8YqAlzA2PZWBctjx7T7k086UKUyzhnlL5hsiy62HA"/>
+</div>
+<h3 class="text-white font-bold mb-1">Google Cloud</h3>
+<span class="text-[10px] uppercase tracking-widest font-bold text-primary mb-4">Connected</span>
+<div class="mt-auto w-full py-2 bg-primary/20 rounded-lg text-primary text-xs font-bold">Selected</div>
+</div>
+<!-- AWS -->
+<div class="group cursor-pointer border border-slate-700 hover:border-primary/50 bg-slate-800/40 rounded-xl p-6 flex flex-col items-center text-center transition-all">
+<div class="size-16 mb-4 flex items-center justify-center rounded-lg bg-white/10 p-2 overflow-hidden" data-alt="Amazon Web Services logo">
+<img alt="AWS" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDPjdHqMuMqlqfQJVUlCZKyOIhbs_srBeeYl4pyC97FYpeaI7KlarofKIj2HvId4VrnO7zuoknz4y1EIuv1z4CH9DD9a8bZ0JXGjjD-5zP5qUpi478M63hb433buAjHuZBfint7IGJqvAINurdF7vUgn8tFndAmxQmy7bOFcAxRD9c9cELo3d3MNqm13pTJkELVnJ2jHpycJeZMC3JvdJCVYB3nIWrt0mW09v6D7iYDR7J9Nb7oUgeN0HGbc4iandkmWcH-snTmvA"/>
+</div>
+<h3 class="text-white font-bold mb-1">AWS</h3>
+<span class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-4">Not Connected</span>
+<button class="mt-auto w-full py-2 bg-slate-700 group-hover:bg-primary transition-colors rounded-lg text-white text-xs font-bold">Connect</button>
+</div>
+<!-- Azure -->
+<div class="group cursor-pointer border border-slate-700 hover:border-primary/50 bg-slate-800/40 rounded-xl p-6 flex flex-col items-center text-center transition-all">
+<div class="size-16 mb-4 flex items-center justify-center rounded-lg bg-white/10 p-2 overflow-hidden" data-alt="Microsoft Azure logo">
+<img alt="Azure" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXA1eSYPR5KMpcI2SBnjSAbpjEdXWWFxSW7FpoWP4SEGfJjWpwNx7qr3xxlnPcFMfz7Gc9hAsKhcIEDLDozw3tioPp9j6yTJLRHNo5iwW3lytEJd0ER_Khgpta6qW3pp3jY5pGkuGy3HKtnRbWLZobWsX4K9jX3Y34OGS9kLSuZL12xasvPalh0L1fws4a0fqr3HC5kznMIzA6bjUvPEbWUocvo-MZw1x265jHycBQyNFvBdzirJvc_Iki4m5-3LRRKyfTkB5KhEc"/>
+</div>
+<h3 class="text-white font-bold mb-1">Microsoft Azure</h3>
+<span class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-4">Not Connected</span>
+<button class="mt-auto w-full py-2 bg-slate-700 group-hover:bg-primary transition-colors rounded-lg text-white text-xs font-bold">Connect</button>
+</div>
+</div>
+<!-- Regions & Permissions -->
+<div class="border-t border-slate-800 pt-10">
+<h2 class="text-xl font-bold text-white mb-6">Regions &amp; Permissions</h2>
+<!-- Regions -->
+<div class="mb-8">
+<p class="text-slate-400 text-sm mb-4">Active Regions to Monitor</p>
+<div class="flex flex-wrap gap-4">
+<label class="flex items-center gap-3 bg-slate-800/50 border border-slate-700 px-4 py-2 rounded-lg cursor-pointer">
+<span class="text-sm font-medium text-slate-200">us-east-1</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</label>
+<label class="flex items-center gap-3 bg-slate-800/50 border border-slate-700 px-4 py-2 rounded-lg cursor-pointer">
+<span class="text-sm font-medium text-slate-200">us-west-2</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</label>
+<label class="flex items-center gap-3 bg-slate-800/50 border border-slate-700 px-4 py-2 rounded-lg cursor-pointer">
+<span class="text-sm font-medium text-slate-200">eu-west-1</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</label>
+</div>
+</div>
+<!-- Permissions -->
+<div class="space-y-4">
+<label class="flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-center mt-1">
+<input checked="" class="size-5 rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+<div>
+<p class="text-white font-medium">Grant read-only access to billing data</p>
+<p class="text-slate-500 text-sm">Allows Infra to analyze historical spending and provide cost-saving recommendations.</p>
+</div>
+</label>
+<label class="flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-center mt-1">
+<input checked="" class="size-5 rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+<div>
+<p class="text-white font-medium">Enable automated cost alerts</p>
+<p class="text-slate-500 text-sm">Receive instant notifications if your spending exceeds predefined thresholds.</p>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Navigation Footer -->
+<div class="w-full max-w-4xl mt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<button class="flex items-center gap-2 text-slate-400 hover:text-white font-bold transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+          Back to Step 1
+        </button>
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Step 2 of 4</span>
+<div class="flex gap-1 mt-1">
+<div class="w-4 h-1 rounded-full bg-primary/40"></div>
+<div class="w-8 h-1 rounded-full bg-primary"></div>
+<div class="w-4 h-1 rounded-full bg-slate-800"></div>
+<div class="w-4 h-1 rounded-full bg-slate-800"></div>
+</div>
+</div>
+<button class="px-10 py-3 rounded-lg bg-gradient-to-r from-primary to-emerald-600 text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all flex items-center gap-2">
+          Continue
+          <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-5%] left-[-5%] w-[40%] h-[40%] bg-emerald-900/10 blur-[100px] rounded-full"></div>
+</div>
+</div>
+</body></html>

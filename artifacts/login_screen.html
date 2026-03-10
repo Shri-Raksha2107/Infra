@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Infra Premium Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#48b710",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#0a0f08",
+                        "slate": {
+                            "900": "#0f170a",
+                            "950": "#050704",
+                        }
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Left Side: Branding Panel (60%) -->
+<div class="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-gradient-to-br from-slate-950 via-emerald-950 to-primary/20 p-16 flex-col justify-between border-r border-primary/10">
+<!-- Decorative Background Element -->
+<div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none" data-alt="Abstract emerald green data flow pattern">
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-emerald-900/30 rounded-full blur-[100px]"></div>
+</div>
+<!-- Logo and Tagline -->
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary p-2 rounded-xl shadow-[0_0_20px_rgba(72,183,16,0.4)]">
+<span class="material-symbols-outlined text-background-dark text-3xl font-bold">cloud_done</span>
+</div>
+<h1 class="text-4xl font-black tracking-tight text-white">Infra</h1>
+</div>
+<h2 class="text-5xl font-extrabold text-white leading-tight max-w-xl">
+                    AI-Powered <span class="text-primary">Cloud Optimization</span> Platform
+                </h2>
+<p class="mt-6 text-slate-400 text-lg max-w-lg">
+                    Manage your infrastructure with precision. Automate scaling, enhance security, and drive efficiency across all your cloud providers.
+                </p>
+</div>
+<!-- Feature Highlights -->
+<div class="relative z-10 space-y-8 max-w-md">
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 bg-primary/10 p-2 rounded-lg border border-primary/20">
+<span class="material-symbols-outlined text-primary">trending_down</span>
+</div>
+<div>
+<h4 class="text-white font-bold">Reduce costs by 60%</h4>
+<p class="text-slate-400 text-sm">Automated right-sizing and spot instance management.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 bg-primary/10 p-2 rounded-lg border border-primary/20">
+<span class="material-symbols-outlined text-primary">security</span>
+</div>
+<div>
+<h4 class="text-white font-bold">Real-time security scanning</h4>
+<p class="text-slate-400 text-sm">Continuous monitoring for vulnerabilities and misconfigurations.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 bg-primary/10 p-2 rounded-lg border border-primary/20">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<div>
+<h4 class="text-white font-bold">AI-powered recommendations</h4>
+<p class="text-slate-400 text-sm">Predictive analytics for performance and availability optimization.</p>
+</div>
+</div>
+</div>
+<!-- Floating Stat Cards -->
+<div class="absolute right-10 top-1/2 -translate-y-1/2 space-y-6 pointer-events-none">
+<div class="backdrop-blur-md bg-white/5 border border-white/10 p-5 rounded-xl shadow-2xl translate-x-4">
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Total Saved</p>
+<p class="text-primary text-2xl font-black mt-1">$2.4M</p>
+</div>
+<div class="backdrop-blur-md bg-white/5 border border-white/10 p-5 rounded-xl shadow-2xl -translate-x-8">
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Uptime</p>
+<p class="text-white text-2xl font-black mt-1">99.9%</p>
+</div>
+<div class="backdrop-blur-md bg-white/5 border border-white/10 p-5 rounded-xl shadow-2xl translate-x-2">
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Issues Fixed</p>
+<p class="text-white text-2xl font-black mt-1">1,000+</p>
+</div>
+</div>
+<!-- Bottom Branding -->
+<div class="relative z-10 flex items-center gap-2 text-slate-500 text-sm">
+<span>© 2024 Infra Systems Inc.</span>
+<span class="mx-2">•</span>
+<span>Trusted by 500+ enterprises worldwide</span>
+</div>
+</div>
+<!-- Right Side: Login Area (40%) -->
+<div class="w-full lg:w-2/5 h-full flex items-center justify-center p-8 bg-background-light dark:bg-background-dark relative">
+<div class="w-full max-w-md">
+<!-- Mobile Logo (visible only on small screens) -->
+<div class="lg:hidden flex items-center gap-3 mb-10 justify-center">
+<div class="bg-primary p-2 rounded-xl">
+<span class="material-symbols-outlined text-background-dark text-2xl font-bold">cloud_done</span>
+</div>
+<h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Infra</h1>
+</div>
+<div class="bg-white dark:bg-slate-900/50 p-8 rounded-2xl border border-slate-200 dark:border-primary/20 shadow-xl relative">
+<!-- Subtle Glow -->
+<div class="absolute inset-0 rounded-2xl border border-primary/10 pointer-events-none shadow-[0_0_40px_rgba(72,183,16,0.05)]"></div>
+<div class="text-center mb-8 relative z-10">
+<h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">Welcome back</h3>
+<p class="text-slate-500 dark:text-slate-400 mt-2">Sign in to your cloud dashboard</p>
+</div>
+<div class="space-y-4 relative z-10">
+<!-- Google Login -->
+<button class="w-full flex items-center justify-center gap-3 py-3 px-4 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span>Continue with Google</span>
+</button>
+<div class="relative flex items-center py-4">
+<div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+<span class="flex-shrink mx-4 text-slate-400 text-xs uppercase tracking-widest font-semibold">or</span>
+<div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-4">
+<div>
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 ml-1">Email Address</label>
+<input class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" placeholder="name@company.com" type="email"/>
+</div>
+<div>
+<div class="flex justify-between mb-1.5 ml-1">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Password</label>
+<a class="text-xs font-bold text-primary hover:text-primary/80" href="#">Forgot password?</a>
+</div>
+<input class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" placeholder="••••••••" type="password"/>
+</div>
+<button class="w-full py-3 bg-gradient-to-r from-primary to-emerald-600 rounded-xl text-slate-950 font-black text-base shadow-[0_4px_15px_rgba(72,183,16,0.3)] hover:shadow-[0_6px_20px_rgba(72,183,16,0.4)] hover:-translate-y-0.5 transition-all mt-4" type="submit">
+                                Sign in
+                            </button>
+</form>
+</div>
+<!-- Footer -->
+<div class="mt-8 text-center relative z-10">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">
+                            Don't have an account? <a class="text-primary font-bold hover:underline" href="#">Sign up</a>
+</p>
+</div>
+</div>
+<!-- Clerk Badge -->
+<div class="mt-8 flex justify-center items-center gap-2 opacity-60">
+<span class="material-symbols-outlined text-slate-400 text-lg">lock</span>
+<span class="text-slate-400 text-xs font-medium uppercase tracking-widest">Secured by Clerk</span>
+</div>
+</div>
+</div>
+</div>
+</body></html>
