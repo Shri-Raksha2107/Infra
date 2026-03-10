@@ -92,6 +92,9 @@
       "optional": true
     }
   },
+  "engines": {
+    "node": "18.x"
+  },
   "pnpm": {
     "overrides": {
       "vite": "6.3.5"
