@@ -1,3 +1,30 @@
+@import './animations.css';
 @import './fonts.css';
-@import './tailwind.css';
+@import 'tailwindcss';
+
+@layer base {
+    html {
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
+
+    section {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+
+    .custom-cursor {
+        width: 20px;
+        height: 20px;
+        background: #0066FF;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: screen;
+        filter: blur(8px);
+        transition: transform 0.1s ease-out;
+    }
+}
+
 @import './theme.css';

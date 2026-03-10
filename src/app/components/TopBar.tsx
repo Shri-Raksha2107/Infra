@@ -6,14 +6,14 @@ export function TopBar({ title }: { title: string }) {
   const { signOut } = useClerk();
 
   return (
-    <div className="bg-slate-950 border-b border-emerald-500/20 px-8 py-4 flex items-center justify-between">
-      <h1 className="text-2xl font-semibold text-white">{title}</h1>
+    <div className="glass-premium border-b border-white/5 px-8 py-4 flex items-center justify-between sticky top-0 z-20 shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
+      <h1 className="text-2xl font-black text-white tracking-tight drop-shadow-sm font-['Outfit',sans-serif]">{title}</h1>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         {/* GCP Connected Badge */}
-        <div className="flex items-center space-x-3 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-          <Cloud className="w-5 h-5 text-emerald-400" />
-          <span className="text-emerald-400 font-medium">Google Cloud Connected</span>
+        <div className="flex items-center space-x-2 px-3 py-1.5 bg-[var(--color-accent-green)]/10 border border-[var(--color-accent-green)]/30 rounded-lg shadow-[0_0_10px_rgba(5,150,105,0.1)]">
+          <Cloud className="w-4 h-4 text-[var(--color-accent-green)]" />
+          <span className="text-[var(--color-accent-green)] font-bold text-[11px] uppercase tracking-wider">Google Cloud Connected</span>
         </div>
 
         {/* Clerk UserButton — shows avatar + sign-out dropdown */}
@@ -32,7 +32,7 @@ export function TopBar({ title }: { title: string }) {
             <UserButton
               appearance={{
                 elements: {
-                  avatarBox: 'w-9 h-9 border-2 border-emerald-500/40',
+                  avatarBox: 'w-10 h-10 border-2 border-[var(--color-accent-green)]/40 shadow-[0_0_10px_rgba(5,150,105,0.2)]',
                 },
               }}
             />
@@ -41,7 +41,7 @@ export function TopBar({ title }: { title: string }) {
             <button
               onClick={() => signOut({ redirectUrl: '/' })}
               title="Sign out"
-              className="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
+              className="p-2.5 rounded-xl text-slate-400 bg-white/5 border border-white/10 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 transition-all shadow-sm"
             >
               <LogOut className="w-4 h-4" />
             </button>

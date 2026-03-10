@@ -1,12 +1,15 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Sidebar } from '../components/Sidebar';
 import { TopBar } from '../components/TopBar';
+import { GlassCard } from '../components/ui/GlassCard';
+import { GlassPanel } from '../components/ui/GlassPanel';
+import { GlassBadge } from '../components/ui/GlassBadge';
 import { Server, Search, RefreshCw, AlertCircle, Play, Square, HelpCircle, Clock } from 'lucide-react';
 import { fetchGcpInstances, fetchGcpResources, type GcpInstance } from '../lib/gcpApi';
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; Icon: typeof Play }> = {
-  RUNNING: { label: 'Running', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30', Icon: Play },
-  TERMINATED: { label: 'Stopped', color: 'text-slate-400 bg-slate-800 border-slate-700', Icon: Square },
+  RUNNING: { label: 'Running', color: 'text-[#10b981] bg-[#10b981]/10 border-[#10b981]/30', Icon: Play },
+  TERMINATED: { label: 'Stopped', color: 'text-slate-400 bg-white/5 border-white/10', Icon: Square },
   STAGING: { label: 'Starting', color: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/30', Icon: Clock },
   SUSPENDED: { label: 'Suspended', color: 'text-orange-400 bg-orange-500/10 border-orange-500/30', Icon: HelpCircle },
 };
@@ -61,7 +64,13 @@ export function Resources() {
   const stoppedCount = instances.filter((v) => v.status === 'TERMINATED').length;
 
   return (
-    <div className="flex h-screen bg-slate-900">
+    <div className="flex h-screen bg-[#050704] font-['Inter',sans-serif] text-slate-100 antialiased overflow-hidden animate-mesh relative">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <svg className="w-full h-full" preserveAspectRatio="none">
+          <path className="data-stream" d="M 0 50 Q 250 150 500 0" fill="none" stroke="#10b981" strokeWidth="0.5" />
+          <path className="data-stream" d="M 0 200 Q 400 300 800 100" fill="none" stroke="#10b981" strokeWidth="0.8" style={{ animationDelay: '-2s' }} />
+        </svg>
+      </div>
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar title="Resources" />
@@ -72,42 +81,44 @@ export function Resources() {
             {[
               { label: 'Total Resources', value: loading ? '…' : String(totalResources), color: 'text-white' },
               { label: 'VM Instances', value: loading ? '…' : String(instances.length), color: 'text-white' },
-              { label: 'Running VMs', value: loading ? '…' : String(runningCount), color: 'text-emerald-400' },
+              { label: 'Running VMs', value: loading ? '…' : String(runningCount), color: 'text-[#10b981]' },
               { label: 'Stopped VMs', value: loading ? '…' : String(stoppedCount), color: 'text-slate-400' },
             ].map((card) => (
-              <div key={card.label} className="bg-slate-950 border border-emerald-500/20 rounded-xl p-5">
-                <p className="text-xs text-slate-500 mb-2">{card.label}</p>
+              <GlassCard key={card.label} glow className="p-6 transition-all group hover:bg-white/5">
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-2">{card.label}</p>
                 {loading ? (
-                  <div className="h-7 w-12 bg-slate-800 rounded animate-pulse" />
+                  <div className="h-8 w-12 bg-white/5 rounded-lg animate-pulse" />
                 ) : (
-                  <p className={`text-2xl font-bold ${card.color}`}>{card.value}</p>
+                  <p className={`text-3xl font-black drop-shadow-sm truncate ${card.color}`}>{card.value}</p>
                 )}
-              </div>
+              </GlassCard>
             ))}
           </div>
 
           {/* ── Resource type breakdown ────────────────────────── */}
           {!loading && Object.keys(resourcesByType).length > 0 && (
-            <div className="mb-6 p-4 bg-slate-950 border border-emerald-500/20 rounded-xl">
-              <p className="text-xs text-slate-500 mb-3 font-medium uppercase tracking-wider">All Resources by Type</p>
-              <div className="flex flex-wrap gap-2">
+            <GlassPanel className="mb-8 p-6">
+              <p className="text-[10px] text-slate-500 mb-4 font-bold uppercase tracking-wider">All Resources by Type</p>
+              <div className="flex flex-wrap gap-3">
                 {Object.entries(resourcesByType).map(([type, count]) => (
-                  <div key={type} className="flex items-center gap-2 px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg">
-                    <span className="text-sm text-slate-300">{type}</span>
-                    <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">{count}</span>
+                  <div key={type} className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl shadow-sm hover:bg-white/10 transition-colors">
+                    <span className="text-sm font-semibold text-slate-200">{type}</span>
+                    <span className="text-xs font-black text-[#10b981] bg-[#10b981]/10 border border-[#10b981]/20 px-2 py-0.5 rounded-md shadow-inner">{count}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </GlassPanel>
           )}
 
           {/* ── VM Table ──────────────────────────────────────── */}
-          <div className="bg-slate-950 border border-emerald-500/20 rounded-xl overflow-hidden">
+          <GlassPanel className="p-0 overflow-hidden">
             {/* Table header + controls */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10 bg-white/5">
               <div className="flex items-center gap-3">
-                <Server className="w-5 h-5 text-emerald-400" />
-                <h2 className="text-lg font-semibold text-white">Compute Engine Instances</h2>
+                <div className="bg-[#10b981]/10 p-2 rounded-xl border border-[#10b981]/20 text-[#10b981]">
+                  <Server className="w-5 h-5" />
+                </div>
+                <h2 className="text-xl font-semibold text-white tracking-tight">Compute Engine Instances</h2>
                 {!loading && (
                   <span className="text-xs text-slate-500">
                     · {filtered.length} of {instances.length} shown
@@ -130,7 +141,7 @@ export function Resources() {
             </div>
 
             {/* Search + Filter */}
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-800 bg-slate-900/50">
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-white/10 bg-black/20">
               <div className="relative flex-1 max-w-xs">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                 <input
@@ -138,7 +149,7 @@ export function Resources() {
                   placeholder="Search VMs…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 text-sm bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-lg focus:outline-none focus:border-emerald-500"
+                  className="w-full pl-9 pr-4 py-2 text-sm bg-white/5 border border-white/10 text-white placeholder-slate-500 rounded-lg focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981]/50 transition-all font-medium"
                 />
               </div>
               <div className="flex gap-2">
@@ -146,9 +157,9 @@ export function Resources() {
                   <button
                     key={s}
                     onClick={() => setStatusFilter(s)}
-                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${statusFilter === s
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400'
-                        : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600'
+                    className={`px-3 py-1.5 text-xs rounded-lg border font-semibold transition-colors shadow-sm ${statusFilter === s
+                      ? 'bg-[#10b981]/20 border-[#10b981]/50 text-[#10b981]'
+                      : 'bg-white/5 border-white/10 text-slate-400 hover:border-white/20 hover:text-slate-300'
                       }`}
                   >
                     {s === 'ALL' ? 'All' : s === 'RUNNING' ? 'Running' : s === 'TERMINATED' ? 'Stopped' : 'Starting'}
@@ -169,14 +180,14 @@ export function Resources() {
             {loading ? (
               <div className="p-6 space-y-3">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="h-14 bg-slate-900 rounded-lg animate-pulse" />
+                  <div key={i} className="h-14 bg-white/5 rounded-xl animate-pulse" />
                 ))}
               </div>
             ) : filtered.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-slate-800">
+                    <tr className="border-b border-white/5">
                       {['Name', 'Zone', 'Machine Type', 'Status', 'Disks', 'Created'].map((h) => (
                         <th key={h} className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                           {h}
@@ -184,18 +195,18 @@ export function Resources() {
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/50">
+                  <tbody className="divide-y divide-white/5">
                     {filtered.map((vm) => {
                       const statusCfg = STATUS_CONFIG[vm.status] || STATUS_CONFIG.TERMINATED;
                       const StatusIcon = statusCfg.Icon;
                       return (
-                        <tr key={vm.id} className="hover:bg-slate-900/50 transition-colors">
+                        <tr key={vm.id} className="hover:bg-white/5 transition-colors group">
                           <td className="px-6 py-4">
-                            <span className="text-white font-medium text-sm">{vm.name}</span>
+                            <span className="text-white font-semibold text-sm drop-shadow-sm">{vm.name}</span>
                             {vm.tags.length > 0 && (
-                              <div className="flex gap-1 mt-1">
+                              <div className="flex gap-1.5 mt-1.5">
                                 {vm.tags.slice(0, 2).map((t) => (
-                                  <span key={t} className="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-500 rounded">{t}</span>
+                                  <span key={t} className="text-[10px] px-1.5 py-0.5 bg-black/40 text-slate-400 font-medium rounded-md border border-white/5">{t}</span>
                                 ))}
                               </div>
                             )}
@@ -245,7 +256,7 @@ export function Resources() {
                 </p>
               </div>
             )}
-          </div>
+          </GlassPanel>
         </main>
       </div>
     </div>

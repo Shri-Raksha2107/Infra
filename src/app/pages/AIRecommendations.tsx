@@ -122,7 +122,7 @@ export function AIRecommendations() {
           </div>
 
           {/* Right Side - AI Assistant Chat */}
-          <div className="w-96 bg-slate-950 border border-emerald-500/20 rounded-xl flex flex-col overflow-hidden shadow-2xl shadow-emerald-500/10">
+          <div className="w-96 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl flex flex-col overflow-hidden shadow-2xl">
             {/* Chat Header */}
             <div className="p-6 border-b border-emerald-500/20 bg-gradient-to-r from-slate-950 to-emerald-950/20">
               <div className="flex items-center gap-3 mb-2">
@@ -144,11 +144,10 @@ export function AIRecommendations() {
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] p-3 rounded-lg ${
-                      message.role === 'user'
-                        ? 'bg-emerald-500 text-white'
-                        : 'bg-slate-900 text-slate-200 border border-slate-800'
-                    }`}
+                    className={`max-w-[80%] p-3 rounded-lg ${message.role === 'user'
+                      ? 'bg-emerald-500 text-white'
+                      : 'bg-white/5 text-slate-200 border border-white/10'
+                      }`}
                   >
                     {message.content}
                   </div>
@@ -164,7 +163,7 @@ export function AIRecommendations() {
                   <button
                     key={index}
                     onClick={() => handleQuestionClick(question)}
-                    className="w-full text-left px-3 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-emerald-400 rounded text-xs transition-all border border-slate-800 hover:border-emerald-500/30"
+                    className="w-full text-left px-3 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-[var(--color-accent-green)] rounded text-xs transition-all border border-white/10 hover:border-[var(--color-accent-green)]/30"
                   >
                     {question}
                   </button>
@@ -173,7 +172,7 @@ export function AIRecommendations() {
             </div>
 
             {/* Chat Input */}
-            <div className="p-4 border-t border-emerald-500/20 bg-slate-900/50">
+            <div className="p-4 border-t border-white/10 bg-white/5">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -181,7 +180,7 @@ export function AIRecommendations() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="Ask anything about your infrastructure..."
-                  className="flex-1 px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
+                  className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[var(--color-accent-green)] transition-colors"
                 />
                 <button
                   onClick={handleSendMessage}
@@ -222,7 +221,7 @@ function RecommendationCard({ recommendation }: { recommendation: typeof recomme
   };
 
   return (
-    <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6 hover:border-emerald-500/40 transition-all shadow-lg shadow-emerald-500/5">
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-[var(--color-accent-green)]/40 transition-all shadow-xl">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -237,13 +236,13 @@ function RecommendationCard({ recommendation }: { recommendation: typeof recomme
       </div>
 
       {/* Explanation Section */}
-      <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 mb-4">
+      <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
         <h4 className="text-sm font-semibold text-emerald-400 mb-2">Explanation</h4>
         <p className="text-sm text-slate-300">{recommendation.explanation}</p>
       </div>
 
       {/* Recommended Action */}
-      <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 mb-4">
+      <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
         <h4 className="text-sm font-semibold text-emerald-400 mb-2">Recommended Action</h4>
         <p className="text-sm text-white">{recommendation.action}</p>
       </div>
@@ -256,7 +255,7 @@ function RecommendationCard({ recommendation }: { recommendation: typeof recomme
           </div>
           <div className="text-lg font-bold text-white">{recommendation.impact}</div>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-lg p-3">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
           <div className="text-xs text-slate-400 mb-1">Confidence Score</div>
           <div className="flex items-center gap-2">
             <div className="text-lg font-bold text-white">{recommendation.confidence}%</div>
@@ -272,7 +271,7 @@ function RecommendationCard({ recommendation }: { recommendation: typeof recomme
 
       {/* Action Buttons */}
       <div className="flex gap-3">
-        <button className="flex-1 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 hover:border-emerald-500/50 rounded-lg transition-all font-medium">
+        <button className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 hover:border-[var(--color-accent-green)]/50 rounded-lg transition-all font-medium">
           Simulate Impact
         </button>
         <button className="flex-1 px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 rounded-lg transition-all font-medium shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50">
@@ -285,22 +284,22 @@ function RecommendationCard({ recommendation }: { recommendation: typeof recomme
 
 function generateAIResponse(question: string): string {
   const lowerQuestion = question.toLowerCase();
-  
+
   if (lowerQuestion.includes('cost') && lowerQuestion.includes('increasing')) {
     return 'Your cloud costs have increased by 8.2% this month, primarily due to: (1) New compute instances added to handle increased traffic (+$800), (2) Storage growth from logging and backups (+$400), and (3) Data transfer costs (+$200). I recommend reviewing the Cost Optimization page for detailed savings opportunities totaling $2,420/month.';
   }
-  
+
   if (lowerQuestion.includes('security') && lowerQuestion.includes('risk')) {
     return 'I\'ve detected 7 security risks across your infrastructure: 3 critical issues (public storage buckets, unencrypted database), 2 high-severity risks (open firewall ports), and 2 medium-severity issues. Your current security score is 68/100. The most urgent fix is securing the "storage-bucket-backups" which is publicly accessible.';
   }
-  
+
   if (lowerQuestion.includes('optimize') || lowerQuestion.includes('infrastructure')) {
     return 'Based on my analysis, here are the top 3 optimization opportunities: (1) Delete idle VM "vm-staging-db-02" for $520/month savings, (2) Resize overprovisioned instances for $380/month savings, and (3) Purchase committed use discounts for $1,200/month savings. Together, these could reduce your costs by 17.5%.';
   }
-  
+
   if (lowerQuestion.includes('compute') || lowerQuestion.includes('trend')) {
     return 'Your compute costs have grown from $5,290 to $6,210 over the last 3 months (+17%). Main drivers: 3 new production VMs added in January, increased usage on existing instances, and lack of committed use discounts. I recommend consolidating workloads and switching to committed use contracts.';
   }
-  
+
   return 'I can help you with cost optimization, security recommendations, and infrastructure analysis. Try asking about specific resources, cost trends, or security risks. You can also use the example questions below for guidance.';
 }

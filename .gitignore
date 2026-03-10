@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # =======================
 # Secrets & Credentials
 # =======================
@@ -9,6 +8,13 @@ google_oauth2.json
 *.pem
 *.key
 
+# =======================
+# Terraform
+# =======================
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 
 # =======================
 # Dependencies
@@ -50,6 +56,3 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.log
-=======
-
->>>>>>> 83b1f8e9dff7f15436e7c38167b91461824d88b1

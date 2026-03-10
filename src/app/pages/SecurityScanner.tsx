@@ -109,21 +109,27 @@ export function SecurityScanner() {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-900">
+    <div className="flex h-screen bg-[#050704] font-['Inter',sans-serif] text-slate-100 antialiased overflow-hidden animate-mesh relative">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <svg className="w-full h-full" preserveAspectRatio="none">
+          <path className="data-stream" d="M 0 50 Q 250 150 500 0" fill="none" stroke="var(--color-accent-green)" strokeWidth="0.5" />
+          <path className="data-stream" d="M 0 200 Q 400 300 800 100" fill="none" stroke="var(--color-accent-green)" strokeWidth="0.8" style={{ animationDelay: '-2s' }} />
+        </svg>
+      </div>
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
         <TopBar title="Security Scanner" />
         <main className="flex-1 overflow-y-auto p-8">
 
           {/* ── Live Resource Inventory Banner ──────────────── */}
-          <div className="mb-6 p-4 bg-slate-950 border border-emerald-500/20 rounded-xl">
+          <div className="mb-6 p-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl">
             <div className="flex items-center justify-between mb-3">
               <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Live Resource Inventory (GCP Cloud Asset API)</p>
               <span className="text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live Data</span>
             </div>
             <div className="grid grid-cols-4 gap-3">
               {liveCategories.map((cat) => (
-                <div key={cat.name} className="flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 rounded-lg">
+                <div key={cat.name} className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-xl">
                   <cat.icon className="w-4 h-4 text-emerald-400 shrink-0" />
                   <div>
                     <p className="text-xs text-slate-500">{cat.name}</p>
@@ -155,7 +161,7 @@ export function SecurityScanner() {
                 <div className="text-sm text-red-400">Needs Improvement</div>
               </div>
               <div className="mt-6">
-                <div className="h-3 bg-slate-900 rounded-full overflow-hidden">
+                <div className="h-3 bg-white/10 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-red-500 to-yellow-500 rounded-full"
                     style={{ width: `${securityScore}%` }}
@@ -164,13 +170,13 @@ export function SecurityScanner() {
               </div>
             </div>
 
-            <div className="col-span-2 bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <div className="col-span-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
               <h2 className="text-xl font-semibold text-white mb-6">Risk Categories</h2>
               <div className="grid grid-cols-2 gap-4">
                 {riskCategories.map((category) => (
                   <div
                     key={category.name}
-                    className="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-red-500/30 transition-all"
+                    className="p-4 bg-white/5 border border-white/10 rounded-xl hover:border-red-500/30 transition-all"
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <category.icon className="w-5 h-5 text-red-400" />
@@ -185,7 +191,7 @@ export function SecurityScanner() {
 
           {/* Visualization and Stats */}
           <div className="grid grid-cols-3 gap-6 mb-8">
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
               <h2 className="text-xl font-semibold text-white mb-6">Security Risk Distribution</h2>
               <ResponsiveContainer width="100%" height={250}>
                 <PieChart id="security-risk-pie-chart">
@@ -208,7 +214,7 @@ export function SecurityScanner() {
               </ResponsiveContainer>
             </div>
 
-            <div className="col-span-2 bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <div className="col-span-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
               <h2 className="text-xl font-semibold text-white mb-6">Recommended Security Improvements</h2>
               <div className="space-y-3">
                 <RecommendationCard
@@ -231,7 +237,7 @@ export function SecurityScanner() {
           </div>
 
           {/* Risk Table */}
-          <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">Detected Security Risks</h2>
               <span className="text-sm text-slate-400">{securityRisks.length} risks found</span>
@@ -250,7 +256,7 @@ export function SecurityScanner() {
                 </thead>
                 <tbody>
                   {securityRisks.map((risk) => (
-                    <tr key={risk.id} className="border-b border-slate-800 hover:bg-slate-900/50 transition-colors">
+                    <tr key={risk.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
                       <td className="px-4 py-4 text-sm text-emerald-400 font-mono">{risk.resource}</td>
                       <td className="px-4 py-4 text-sm text-white">{risk.riskType}</td>
                       <td className="px-4 py-4">
@@ -287,7 +293,7 @@ export function SecurityScanner() {
 
 function RecommendationCard({ title, impact, status }: { title: string; impact: string; status: string }) {
   return (
-    <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-emerald-500/30 transition-all">
+    <div className="p-4 bg-white/5 border border-white/10 rounded-xl hover:border-[var(--color-accent-green)]/30 transition-all">
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="text-white font-medium mb-1">{title}</div>

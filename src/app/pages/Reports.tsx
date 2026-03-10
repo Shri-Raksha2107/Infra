@@ -15,6 +15,9 @@ import {
   type BqStatus, type BqCostTrend, type BqDailyCost,
   type BqTopServices, type BqProjectCosts,
 } from '../lib/gcpApi';
+import { GlassCard } from '../components/ui/GlassCard';
+import { GlassPanel } from '../components/ui/GlassPanel';
+import { GlassBadge } from '../components/ui/GlassBadge';
 
 // service colours
 const SERVICE_COLORS = ['#10b981', '#34d399', '#6ee7b7', '#059669', '#047857', '#a7f3d0', '#065f46', '#d1fae5'];
@@ -41,9 +44,9 @@ function fmtDay(dateStr: string) {
 function SetupBanner({ status }: { status: BqStatus }) {
   const isError = !!status.error && !status.error.includes('notFound') && !status.error.includes('404');
   return (
-    <div className={`rounded-xl p-5 border mb-6 flex items-start gap-4 ${isError
-      ? 'bg-red-500/10 border-red-500/30'
-      : 'bg-blue-500/10 border-blue-500/30'
+    <GlassPanel className={`p-6 mb-8 flex items-start gap-4 ${isError
+      ? 'border-red-500/30'
+      : 'border-blue-500/30'
       }`}>
       <Database className={`w-6 h-6 shrink-0 mt-0.5 ${isError ? 'text-red-400' : 'text-blue-400'}`} />
       <div className="flex-1">
@@ -79,7 +82,7 @@ function SetupBanner({ status }: { status: BqStatus }) {
           </ol>
         )}
       </div>
-    </div>
+    </GlassPanel>
   );
 }
 
@@ -91,20 +94,22 @@ function ChartCard({ title, icon, children, badge }: {
   badge?: string;
 }) {
   return (
-    <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2">
-          <span className="text-emerald-400">{icon}</span>
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+    <GlassPanel>
+      <div className="flex items-center justify-between mb-6 relative">
+        <div className="flex items-center gap-3">
+          <div className="bg-[#10b981]/10 p-2 rounded-xl border border-[#10b981]/20 text-[#10b981]">
+            {icon}
+          </div>
+          <h2 className="text-xl font-semibold text-white tracking-tight">{title}</h2>
         </div>
         {badge && (
-          <span className="text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <GlassBadge variant="success" pulse>
             {badge}
-          </span>
+          </GlassBadge>
         )}
       </div>
       {children}
-    </div>
+    </GlassPanel>
   );
 }
 
@@ -121,7 +126,7 @@ function EmptyState({ message }: { message: string }) {
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 function Skeleton({ h = 200 }: { h?: number }) {
   return (
-    <div className={`rounded-lg bg-slate-900 animate-pulse`} style={{ height: h }} />
+    <div className={`rounded-xl bg-white/5 animate-pulse`} style={{ height: h }} />
   );
 }
 
@@ -184,7 +189,13 @@ export function Reports() {
   const dailyTick = (val: string, idx: number) => idx % 5 === 0 ? val : '';
 
   return (
-    <div className="flex h-screen bg-slate-900">
+    <div className="flex h-screen bg-[#050704] font-['Inter',sans-serif] text-slate-100 antialiased overflow-hidden animate-mesh relative">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <svg className="w-full h-full" preserveAspectRatio="none">
+          <path className="data-stream" d="M 0 50 Q 250 150 500 0" fill="none" stroke="#10b981" strokeWidth="0.5" />
+          <path className="data-stream" d="M 0 200 Q 400 300 800 100" fill="none" stroke="#10b981" strokeWidth="0.8" style={{ animationDelay: '-2s' }} />
+        </svg>
+      </div>
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar title="Cost Reports" />
@@ -219,9 +230,9 @@ export function Reports() {
 
           {/* ── Ready badge ──────────────────────────────── */}
           {!loading && ready && (
-            <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg w-fit">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span className="text-xs text-emerald-300">
+            <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-[#10b981]/10 border border-[#10b981]/20 rounded-lg w-fit shadow-[0_0_10px_rgba(72,183,16,0.1)]">
+              <CheckCircle2 className="w-4 h-4 text-[#10b981]" />
+              <span className="text-xs text-[#10b981] font-semibold tracking-wide">
                 BigQuery export is active · {status?.rowCount?.toLocaleString()} rows in table
               </span>
             </div>
@@ -249,23 +260,25 @@ export function Reports() {
                 sub: 'billing this month',
               },
             ].map(({ label, icon, value, sub }) => (
-              <div key={label} className="bg-slate-950 border border-emerald-500/20 rounded-xl p-5 hover:border-emerald-500/40 transition-all">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-emerald-400">{icon}</div>
-                  <span className="text-xs text-slate-600">{label}</span>
+              <GlassCard key={label} glow className="p-6 transition-all group">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="bg-[#10b981]/10 p-2.5 rounded-xl border border-[#10b981]/30 text-[#10b981] group-hover:border-[#10b981]/60 transition-colors">
+                    {icon}
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{label}</span>
                 </div>
                 {loading ? (
-                  <div className="space-y-2">
-                    <div className="h-6 w-24 bg-slate-800 rounded animate-pulse" />
-                    <div className="h-3 w-32 bg-slate-800 rounded animate-pulse" />
+                  <div className="space-y-3 mt-4">
+                    <div className="h-8 w-24 bg-white/5 rounded-lg animate-pulse" />
+                    <div className="h-3 w-32 bg-white/5 rounded-md animate-pulse" />
                   </div>
                 ) : (
-                  <>
-                    <div className="text-xl font-bold text-white truncate" title={value}>{value}</div>
-                    <div className="text-xs text-slate-500 mt-1">{sub}</div>
-                  </>
+                  <div className="mt-4 relative z-10">
+                    <div className="text-3xl font-black text-white mb-1 truncate drop-shadow-sm" title={value}>{value}</div>
+                    <div className="text-[11px] font-medium text-slate-400 mt-1 uppercase tracking-wider">{sub}</div>
+                  </div>
                 )}
-              </div>
+              </GlassCard>
             ))}
           </div>
 
@@ -369,7 +382,7 @@ export function Reports() {
           >
             {loading ? (
               <div className="space-y-3">
-                {[1, 2, 3].map(i => <div key={i} className="h-10 bg-slate-900 rounded-lg animate-pulse" />)}
+                {[1, 2, 3].map(i => <div key={i} className="h-10 bg-white/5 rounded-xl animate-pulse" />)}
               </div>
             ) : (projectCosts?.data ?? []).length > 0 ? (
               <div className="space-y-2">
@@ -379,18 +392,18 @@ export function Reports() {
                   return (
                     <div
                       key={row.project}
-                      className="flex items-center gap-4 px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg"
+                      className="flex items-center gap-4 px-5 py-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors shadow-sm"
                     >
-                      <span className="text-xs text-slate-600 w-5 text-right">{i + 1}</span>
-                      <span className="text-slate-300 text-sm flex-1 font-mono truncate">{row.project}</span>
+                      <span className="text-xs text-slate-500 font-bold w-5 text-right">{i + 1}</span>
+                      <span className="text-slate-200 text-sm flex-1 font-mono truncate font-semibold">{row.project}</span>
                       {/* progress bar */}
-                      <div className="w-28 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="w-28 h-2 bg-black/40 rounded-full overflow-hidden shadow-inner">
                         <div
-                          className="h-full rounded-full bg-emerald-500"
+                          className="h-full rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]"
                           style={{ width: `${pct}%` }}
                         />
                       </div>
-                      <span className="text-emerald-400 font-semibold text-sm w-20 text-right">
+                      <span className="text-[#10b981] font-black text-sm w-20 text-right">
                         {fmtUSD(row.cost)}
                       </span>
                     </div>
@@ -404,14 +417,16 @@ export function Reports() {
 
           {/* ── BigQuery config info footer ──────────────── */}
           {!loading && status && (
-            <div className="mt-6 px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-600 flex items-center gap-6">
-              <span className="flex items-center gap-1.5">
-                <Database className="w-3 h-3" />
-                <span>Project: <span className="text-slate-400 font-mono">{status.project}</span></span>
-              </span>
-              <span>Dataset: <span className="text-slate-400 font-mono">{status.dataset}</span></span>
-              <span>Table: <span className="text-slate-400 font-mono">{status.table}</span></span>
-              <span>Rows: <span className="text-slate-400">{status.rowCount?.toLocaleString()}</span></span>
+            <div className="mt-8 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-xs text-slate-500 font-medium flex items-center justify-between gap-6 shadow-sm">
+              <div className="flex items-center gap-6">
+                <span className="flex items-center gap-2 text-slate-400">
+                  <Database className="w-4 h-4 text-[#10b981]" />
+                  <span>Project: <span className="text-slate-300 font-mono tracking-wide">{status.project}</span></span>
+                </span>
+                <span>Dataset: <span className="text-slate-300 font-mono tracking-wide">{status.dataset}</span></span>
+                <span>Table: <span className="text-slate-300 font-mono tracking-wide">{status.table}</span></span>
+              </div>
+              <span className="bg-black/20 px-3 py-1.5 rounded-lg border border-white/5 shadow-inner">Rows: <span className="text-slate-300 font-bold ml-1">{status.rowCount?.toLocaleString()}</span></span>
             </div>
           )}
 

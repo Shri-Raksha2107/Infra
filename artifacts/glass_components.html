@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e65e",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#020617", // Deep slate-950
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(16, 185, 129, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(25, 230, 94, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .glass-card-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card-glow::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 40px;
+            background: radial-gradient(circle, rgba(25, 230, 94, 0.15) 0%, transparent 70%);
+            filter: blur(15px);
+            pointer-events: none;
+        }
+        .mesh-gradient {
+            background-color: #020617;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(6, 78, 59, 0.3) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(5, 46, 22, 0.3) 0, transparent 50%);
+        }
+        .status-pulse {
+            position: relative;
+        }
+        .status-pulse::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #19e65e;
+            border-radius: 50%;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 8px #19e65e;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 mesh-gradient min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<header class="flex items-center bg-transparent p-4 pb-2 justify-between sticky top-0 z-50 backdrop-blur-md">
+<div class="text-slate-100 flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary">layers</span>
+</div>
+<h2 class="text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center">Infra Design System</h2>
+<div class="flex w-10 items-center justify-end">
+<div class="text-slate-100 cursor-pointer p-2 rounded-full hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-2 space-y-8">
+<!-- Section 1: Stat Cards -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-primary/80">Operational Metrics</h3>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="glass-card glass-card-glow p-4 rounded-xl flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-xl">payments</span>
+<span class="text-[10px] font-bold text-red-400">-12%</span>
+</div>
+<div>
+<p class="text-slate-400 text-xs font-medium">Total Cost</p>
+<p class="text-slate-100 text-xl font-bold leading-tight">$12,450</p>
+</div>
+</div>
+<div class="glass-card glass-card-glow p-4 rounded-xl flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-xl">bolt</span>
+<span class="text-[10px] font-bold text-primary">+5%</span>
+</div>
+<div>
+<p class="text-slate-400 text-xs font-medium">Optimization</p>
+<p class="text-slate-100 text-xl font-bold leading-tight">98%</p>
+</div>
+</div>
+<div class="glass-card glass-card-glow p-4 rounded-xl flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-xl">cloud</span>
+<span class="text-[10px] font-bold text-primary">+18%</span>
+</div>
+<div>
+<p class="text-slate-400 text-xs font-medium">Resources</p>
+<p class="text-slate-100 text-xl font-bold leading-tight">1,204</p>
+</div>
+</div>
+<div class="glass-card glass-card-glow p-4 rounded-xl flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-xl">shield</span>
+<span class="text-[10px] font-bold text-slate-500">0%</span>
+</div>
+<div>
+<p class="text-slate-400 text-xs font-medium">Sec Alerts</p>
+<p class="text-slate-100 text-xl font-bold leading-tight">3</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Data Panels -->
+<section class="space-y-4">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-primary/80">Real-time Analytics</h3>
+<div class="glass-card rounded-2xl p-5">
+<div class="flex justify-between items-center mb-6">
+<div>
+<p class="text-slate-400 text-sm">Cost Trends</p>
+<h4 class="text-2xl font-bold text-slate-100">$4.2k <span class="text-sm font-normal text-red-400 text-sm">↓ 8.4%</span></h4>
+</div>
+<div class="bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+<span class="text-[10px] text-primary font-bold uppercase tracking-wider">Last 30 Days</span>
+</div>
+</div>
+<div class="h-40 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 150">
+<defs>
+<lineargradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#19e65e" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#19e65e" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,120 Q50,110 80,70 T160,80 T240,40 T320,60 T400,20 V150 H0 Z" fill="url(#chartGradient)"></path>
+<path d="M0,120 Q50,110 80,70 T160,80 T240,40 T320,60 T400,20" fill="none" stroke="#19e65e" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-5 flex items-center gap-6">
+<div class="relative size-24 flex-shrink-0">
+<svg class="size-full" viewbox="0 0 36 36">
+<circle class="stroke-slate-800" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center flex-col">
+<span class="text-lg font-bold text-slate-100">88%</span>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<p class="text-slate-100 font-semibold">Resource Health</p>
+<p class="text-slate-400 text-xs leading-relaxed">System performance is optimal. 24 clusters operating at peak efficiency.</p>
+<div class="flex gap-2 pt-1">
+<div class="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4"></div>
+</div>
+<div class="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/2"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Tables -->
+<section class="space-y-4">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-primary/80">Active Assets</h3>
+<div class="glass-card rounded-2xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead>
+<tr class="bg-primary/5 border-b border-primary/10 text-slate-400 text-[10px] uppercase tracking-wider">
+<th class="px-4 py-3 font-semibold">Resource</th>
+<th class="px-4 py-3 font-semibold">Status</th>
+<th class="px-4 py-3 font-semibold">Cost</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-primary/5">
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="px-4 py-4">
+<div class="flex flex-col">
+<span class="text-slate-100 font-medium">EC2-Production-01</span>
+<span class="text-slate-500 text-[10px]">us-east-1</span>
+</div>
+</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-3">
+<div class="status-pulse pl-3 text-primary text-xs font-medium">Active</div>
+</div>
+</td>
+<td class="px-4 py-4 text-slate-100 font-semibold">$245.00</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="px-4 py-4">
+<div class="flex flex-col">
+<span class="text-slate-100 font-medium">RDS-UserDB-Global</span>
+<span class="text-slate-500 text-[10px]">eu-west-2</span>
+</div>
+</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-3">
+<div class="status-pulse pl-3 text-primary text-xs font-medium">Stable</div>
+</div>
+</td>
+<td class="px-4 py-4 text-slate-100 font-semibold">$892.12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Section 4: Buttons & Controls -->
+<section class="space-y-4">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-primary/80">Interface Controls</h3>
+<div class="grid grid-cols-1 gap-4">
+<div class="flex gap-3">
+<button class="flex-1 bg-gradient-to-r from-primary to-emerald-600 text-slate-950 font-bold py-3 rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-transform text-sm">
+                            Deploy Infrastructure
+                        </button>
+<button class="px-4 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="glass-card p-4 rounded-xl space-y-4">
+<div class="flex items-center justify-between">
+<label class="text-sm font-medium text-slate-300">Auto-Optimization</label>
+<div class="w-12 h-6 bg-primary rounded-full relative p-1 cursor-pointer">
+<div class="absolute right-1 size-4 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<label class="text-sm font-medium text-slate-300">Cloud Protection</label>
+<div class="w-12 h-6 bg-slate-700 rounded-full relative p-1 cursor-pointer">
+<div class="absolute left-1 size-4 bg-slate-400 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">terminal</span>
+<input class="w-full bg-slate-900/50 border border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-3 pl-12 pr-4 text-sm text-slate-100 placeholder:text-slate-600 transition-all outline-none" placeholder="Search components..." type="text"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex border-t border-slate-800 bg-slate-950/80 backdrop-blur-xl px-4 pb-6 pt-3">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="#">
+<span class="material-symbols-outlined !text-[24px]">grid_view</span>
+<p class="text-[10px] font-semibold leading-normal tracking-tight">System</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined !text-[24px]">cloud_queue</span>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Assets</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined !text-[24px]">analytics</span>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Insight</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined !text-[24px]">settings</span>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Admin</p>
+</a>
+</nav>
+</div>
+</body></html>

@@ -89,14 +89,20 @@ export function CostOptimization() {
   const currentBilling = billing?.currentProjectBilling;
 
   return (
-    <div className="flex h-screen bg-slate-900">
+    <div className="flex h-screen bg-[#050704] font-['Inter',sans-serif] text-slate-100 antialiased overflow-hidden animate-mesh relative">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <svg className="w-full h-full" preserveAspectRatio="none">
+          <path className="data-stream" d="M 0 50 Q 250 150 500 0" fill="none" stroke="var(--color-accent-green)" strokeWidth="0.5" />
+          <path className="data-stream" d="M 0 200 Q 400 300 800 100" fill="none" stroke="var(--color-accent-green)" strokeWidth="0.8" style={{ animationDelay: '-2s' }} />
+        </svg>
+      </div>
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
         <TopBar title="Cost Optimization" />
         <main className="flex-1 overflow-y-auto p-8">
 
           {/* ── Live Billing Banner ─────────────────────────── */}
-          <div className="mb-6 p-4 bg-slate-950 border border-emerald-500/20 rounded-xl flex items-center gap-6">
+          <div className="mb-6 p-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl flex items-center gap-6">
             <div className="flex items-center gap-3">
               <CreditCard className="w-5 h-5 text-emerald-400 shrink-0" />
               <div>
@@ -144,7 +150,7 @@ export function CostOptimization() {
 
           {/* Top Section - Cost Summary */}
           <div className="grid grid-cols-2 gap-6 mb-8">
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-8 shadow-lg shadow-emerald-500/10">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center justify-between mb-4">
                 <div className="text-emerald-400">
                   <DollarSign className="w-8 h-8" />
@@ -176,7 +182,7 @@ export function CostOptimization() {
 
           {/* Charts Section */}
           <div className="grid grid-cols-2 gap-6 mb-8">
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
               <h2 className="text-xl font-semibold text-white mb-6">Cost Trends Over Time</h2>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={costTrendData} id="cost-trend-line-chart">
@@ -192,7 +198,7 @@ export function CostOptimization() {
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
               <h2 className="text-xl font-semibold text-white mb-6">Cost Distribution Across Services</h2>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={serviceCostData} id="service-cost-bar-chart">
@@ -218,7 +224,7 @@ export function CostOptimization() {
           </div>
 
           {/* Optimization Insights Panel */}
-          <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">Optimization Insights</h2>
               <span className="text-sm text-slate-400">{optimizationInsights.length} opportunities detected</span>
@@ -238,7 +244,7 @@ export function CostOptimization() {
 
 function ServiceCard({ icon, name, cost, percentage }: { icon: React.ReactNode; name: string; cost: string; percentage: string }) {
   return (
-    <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-4">
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
       <div className="flex items-center justify-between mb-3">
         <div className="text-emerald-400">{icon}</div>
         <span className="text-xs text-slate-400">{percentage}</span>
@@ -251,15 +257,15 @@ function ServiceCard({ icon, name, cost, percentage }: { icon: React.ReactNode; 
 
 function OptimizationCard({ insight }: { insight: typeof optimizationInsights[0] }) {
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-lg p-6 hover:border-emerald-500/30 transition-all">
+    <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-[var(--color-accent-green)]/30 transition-all">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
             <h3 className="text-lg font-semibold text-white">{insight.type}</h3>
             <span
               className={`px-2 py-1 rounded text-xs font-semibold ${insight.severity === 'high'
-                  ? 'bg-orange-500/20 text-orange-400'
-                  : 'bg-yellow-500/20 text-yellow-400'
+                ? 'bg-orange-500/20 text-orange-400'
+                : 'bg-yellow-500/20 text-yellow-400'
                 }`}
             >
               {insight.severity.toUpperCase()}
@@ -273,7 +279,7 @@ function OptimizationCard({ insight }: { insight: typeof optimizationInsights[0]
         </div>
       </div>
 
-      <div className="bg-slate-950 rounded-lg p-4 mb-4">
+      <div className="bg-white/5 rounded-xl p-4 mb-4">
         <div className="text-sm text-slate-300 mb-1">Recommended Change:</div>
         <div className="text-white">{insight.change}</div>
       </div>

@@ -7,6 +7,9 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { fetchGcpSummary, fetchBqCostTrend, type GcpSummary } from '../lib/gcpApi';
+import { GlassCard } from '../components/ui/GlassCard';
+import { GlassPanel } from '../components/ui/GlassPanel';
+import { GlassBadge } from '../components/ui/GlassBadge';
 
 // Colour palette for pie chart slices
 const SLICE_COLORS = ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#047857', '#059669', '#64748b', '#475569'];
@@ -65,7 +68,13 @@ export function Dashboard() {
   const projectCount = summary?.projectCount ?? 0;
 
   return (
-    <div className="flex h-screen bg-slate-900">
+    <div className="flex h-screen bg-[#050704] font-['Inter',sans-serif] text-slate-100 antialiased overflow-hidden animate-mesh relative">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <svg className="w-full h-full" preserveAspectRatio="none">
+          <path className="data-stream" d="M 0 50 Q 250 150 500 0" fill="none" stroke="#10b981" strokeWidth="0.5" />
+          <path className="data-stream" d="M 0 200 Q 400 300 800 100" fill="none" stroke="#10b981" strokeWidth="0.8" style={{ animationDelay: '-2s' }} />
+        </svg>
+      </div>
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar title="Infra Cloud Dashboard" />
@@ -151,16 +160,18 @@ export function Dashboard() {
           {/* ── Charts Section ───────────────────────────────── */}
           <div className="grid grid-cols-2 gap-6 mb-8">
             {/* Cost Trend — live from BigQuery */}
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <BarChart2 className="w-5 h-5 text-emerald-400" />
+            <GlassPanel>
+              <div className="flex items-center justify-between mb-6 relative">
+                <div className="flex items-center gap-3">
+                  <div className="bg-[#10b981]/10 p-2 rounded-xl border border-[#10b981]/20 text-[#10b981]">
+                    <BarChart2 className="w-5 h-5" />
+                  </div>
                   <h2 className="text-xl font-semibold text-white">Cost Over Time</h2>
                 </div>
                 {bqReady ? (
-                  <span className="text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live · BigQuery</span>
+                  <GlassBadge variant="success" pulse>Live · BigQuery</GlassBadge>
                 ) : (
-                  <a href="/reports" className="text-xs px-2 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 hover:border-emerald-500/30 hover:text-emerald-400 transition-colors">
+                  <a href="/reports" className="text-xs px-3 py-1.5 rounded-full bg-white/5 text-slate-300 border border-white/10 hover:border-[#10b981]/30 hover:text-[#10b981] transition-colors font-semibold">
                     Setup in Reports →
                   </a>
                 )}
@@ -181,13 +192,13 @@ export function Dashboard() {
                 <div className="flex flex-col items-center justify-center h-[220px] text-slate-600 gap-2">
                   <BarChart2 className="w-8 h-8 opacity-30" />
                   <p className="text-sm">No cost data yet</p>
-                  <a href="/reports" className="text-xs text-emerald-500 hover:text-emerald-400 underline">Set up BigQuery export in Reports</a>
+                  <a href="/reports" className="text-[10px] font-bold text-[#10b981] hover:text-emerald-400 uppercase tracking-wider">Set up BigQuery export in Reports</a>
                 </div>
               )}
-            </div>
+            </GlassPanel>
 
             {/* Resource Distribution (live) */}
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <GlassPanel>
               <h2 className="text-xl font-semibold text-white mb-6">Resource Distribution</h2>
               {loading ? (
                 <div className="flex items-center justify-center h-48">
@@ -228,13 +239,13 @@ export function Dashboard() {
                   <p className="text-sm">No resources found in this project</p>
                 </div>
               )}
-            </div>
+            </GlassPanel>
           </div>
 
           {/* ── GCP Details ──────────────────────────────────── */}
           <div className="grid grid-cols-2 gap-6">
             {/* Resource breakdown table */}
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <GlassPanel>
               <h2 className="text-xl font-semibold text-white mb-6">Resource Inventory</h2>
               {loading ? (
                 <SkeletonList rows={4} />
@@ -243,20 +254,20 @@ export function Dashboard() {
                   {Object.entries(summary!.resourcesByType).map(([type, count]) => (
                     <div
                       key={type}
-                      className="flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-lg"
+                      className="flex items-center justify-between p-4 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors rounded-xl"
                     >
-                      <span className="text-slate-300 text-sm font-medium">{type}</span>
-                      <span className="text-emerald-400 font-semibold text-sm">{count}</span>
+                      <span className="text-slate-300 text-sm font-semibold">{type}</span>
+                      <span className="text-[#10b981] font-bold text-sm">{count}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-600 text-sm">No resources detected. Ensure the service account has Cloud Asset Viewer role.</p>
+                <p className="text-slate-500 text-sm">No resources detected. Ensure the service account has Cloud Asset Viewer role.</p>
               )}
-            </div>
+            </GlassPanel>
 
             {/* VM instance summary */}
-            <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6">
+            <GlassPanel>
               <h2 className="text-xl font-semibold text-white mb-6">Compute Summary</h2>
               {loading ? (
                 <SkeletonList rows={3} />
@@ -273,15 +284,15 @@ export function Dashboard() {
                   ].map(({ label, value }) => (
                     <div
                       key={label}
-                      className="flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-lg"
+                      className="flex items-center justify-between p-3.5 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors rounded-xl"
                     >
-                      <span className="text-slate-400 text-sm">{label}</span>
-                      <span className="text-emerald-400 text-sm font-medium truncate max-w-[180px]">{value}</span>
+                      <span className="text-slate-400 text-sm font-medium">{label}</span>
+                      <span className="text-white text-sm font-bold truncate max-w-[180px]">{value}</span>
                     </div>
                   ))}
                 </div>
               )}
-            </div>
+            </GlassPanel>
           </div>
 
         </main>
@@ -302,25 +313,31 @@ function MetricCard({
   trend: string;
   loading?: boolean;
 }) {
+  const isNeutral = trend === '—' || trend === 'Unknown' || trend === 'No VMs';
+
   return (
-    <div className="bg-slate-950 border border-emerald-500/20 rounded-xl p-6 hover:border-emerald-500/40 transition-all">
+    <GlassCard glow className="p-6 transition-all group">
       <div className="flex items-center justify-between mb-4">
-        <div className="text-emerald-400">{icon}</div>
-        <span className="text-xs text-emerald-400 font-semibold">{loading ? '…' : trend}</span>
+        <div className="bg-[#10b981]/10 p-2.5 rounded-xl border border-[#10b981]/30 text-[#10b981] group-hover:border-[#10b981]/60 transition-colors">
+          {icon}
+        </div>
+        <GlassBadge variant={isNeutral ? 'neutral' : 'success'} pulse={!isNeutral && !loading}>
+          {loading ? '…' : trend}
+        </GlassBadge>
       </div>
       {loading ? (
-        <div className="space-y-2">
-          <div className="h-8 w-24 bg-slate-800 rounded animate-pulse" />
-          <div className="h-3 w-32 bg-slate-800 rounded animate-pulse" />
+        <div className="space-y-3 mt-4">
+          <div className="h-8 w-24 bg-white/5 rounded-lg animate-pulse" />
+          <div className="h-3 w-32 bg-white/5 rounded-md animate-pulse" />
         </div>
       ) : (
-        <>
-          <div className="text-2xl font-bold text-white mb-1 truncate">{value}</div>
-          <div className="text-sm text-slate-400">{title}</div>
-          <div className="text-xs text-slate-500 mt-1">{subtitle}</div>
-        </>
+        <div className="mt-4 relative z-10">
+          <div className="text-3xl font-black text-white mb-1 truncate">{value}</div>
+          <div className="text-sm font-bold text-slate-300">{title}</div>
+          <div className="text-[11px] font-medium text-slate-500 mt-1 uppercase tracking-wider">{subtitle}</div>
+        </div>
       )}
-    </div>
+    </GlassCard>
   );
 }
 
@@ -328,7 +345,7 @@ function SkeletonList({ rows }: { rows: number }) {
   return (
     <div className="space-y-3">
       {Array.from({ length: rows }).map((_, i) => (
-        <div key={i} className="h-10 bg-slate-900 rounded-lg animate-pulse" />
+        <div key={i} className="h-10 bg-white/5 rounded-xl animate-pulse" />
       ))}
     </div>
   );

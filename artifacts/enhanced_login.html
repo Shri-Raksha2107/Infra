@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Infra | Premium Cloud Optimization</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        @keyframes mesh-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes flow-line {
+            0% { stroke-dashoffset: 1000; opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { stroke-dashoffset: 0; opacity: 0; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+        .animate-mesh {
+            background: linear-gradient(-45deg, #050704, #0f170a, #064e3b, #050704);
+            background-size: 400% 400%;
+            animation: mesh-gradient 15s ease infinite;
+        }
+        .data-stream {
+            stroke-dasharray: 100;
+            animation: flow-line 8s linear infinite;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        .glossy-finish {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .glossy-finish::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+        .emerald-glow {
+            filter: drop-shadow(0 0 15px rgba(72, 183, 16, 0.4));
+        }
+        .sparkle-particle {
+            animation: sparkle 4s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#48b710",
+                        "background-dark": "#050704",
+                        "slate": {
+                            "900": "#0f170a",
+                            "950": "#050704",
+                        }
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-dark font-display text-slate-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full relative">
+<div class="hidden lg:flex lg:w-3/5 relative overflow-hidden animate-mesh p-16 flex-col justify-between border-r border-white/5">
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-30" preserveAspectRatio="none">
+<path class="data-stream" d="M 100 100 Q 300 150 500 400" fill="none" stroke="#48b710" stroke-width="1"></path>
+<path class="data-stream" d="M 100 100 Q 200 300 400 550" fill="none" stroke="#48b710" stroke-width="0.5" style="animation-delay: -2s;"></path>
+<path class="data-stream" d="M 100 100 Q 400 200 600 300" fill="none" stroke="#48b710" stroke-width="0.8" style="animation-delay: -4s;"></path>
+</svg>
+<div class="absolute inset-0 pointer-events-none">
+<div class="sparkle-particle absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full blur-[1px]"></div>
+<div class="sparkle-particle absolute top-3/4 left-1/3 w-1.5 h-1.5 bg-primary/40 rounded-full blur-[1px]" style="animation-delay: 1s;"></div>
+<div class="sparkle-particle absolute top-1/2 left-2/3 w-1 h-1 bg-white/60 rounded-full blur-[1px]" style="animation-delay: 2.5s;"></div>
+<div class="sparkle-particle absolute top-1/5 left-1/2 w-0.5 h-0.5 bg-primary/80 rounded-full" style="animation-delay: 0.5s;"></div>
+</div>
+<div class="relative z-20">
+<div class="flex items-center gap-3 mb-8" id="logo-anchor">
+<div class="bg-primary p-2.5 rounded-2xl shadow-[0_0_30px_rgba(72,183,16,0.3)] glossy-finish">
+<span class="material-symbols-outlined text-background-dark text-3xl font-bold">cloud_done</span>
+</div>
+<h1 class="text-4xl font-black tracking-tighter text-white">Infra</h1>
+</div>
+<h2 class="text-6xl font-black text-white leading-[1.1] max-w-xl">
+                AI-Powered <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-primary">Cloud Efficiency</span>
+</h2>
+<p class="mt-8 text-slate-400 text-lg max-w-lg leading-relaxed">
+                The intelligent infrastructure layer for modern enterprises. Optimize resources, automate security, and scale without friction.
+            </p>
+</div>
+<div class="relative z-20 space-y-8 max-w-md">
+<div class="group flex items-start gap-4 p-4 rounded-2xl transition-all hover:bg-white/5">
+<div class="flex-shrink-0 bg-primary/10 p-2.5 rounded-xl border border-primary/30 group-hover:border-primary/60 transition-colors">
+<span class="material-symbols-outlined text-primary">trending_down</span>
+</div>
+<div>
+<h4 class="text-white font-bold text-lg">Reduce costs by 60%</h4>
+<p class="text-slate-400 text-sm leading-relaxed">Multi-cloud right-sizing with neural networks.</p>
+</div>
+</div>
+<div class="group flex items-start gap-4 p-4 rounded-2xl transition-all hover:bg-white/5">
+<div class="flex-shrink-0 bg-primary/10 p-2.5 rounded-xl border border-primary/30 group-hover:border-primary/60 transition-colors">
+<span class="material-symbols-outlined text-primary">security</span>
+</div>
+<div>
+<h4 class="text-white font-bold text-lg">Autonomous Security</h4>
+<p class="text-slate-400 text-sm leading-relaxed">Instant remediation of cloud misconfigurations.</p>
+</div>
+</div>
+</div>
+<div class="absolute right-12 top-1/2 -translate-y-1/2 space-y-8 pointer-events-none z-30">
+<div class="glass-card p-6 rounded-2xl translate-x-12 w-48 relative group" style="animation: float 6s ease-in-out infinite;">
+<div class="absolute -inset-0.5 bg-gradient-to-br from-primary/20 to-transparent rounded-2xl blur-sm opacity-50"></div>
+<div class="relative">
+<p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Total Saved</p>
+<p class="text-primary text-3xl font-black mt-1 emerald-glow">$2.4M</p>
+<div class="mt-3 w-full bg-white/10 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-6 bg-primary/20 blur-xl rounded-full"></div>
+</div>
+<div class="glass-card p-6 rounded-2xl -translate-x-4 w-48 relative" style="animation: float 6s ease-in-out infinite; animation-delay: -2s;">
+<div class="absolute -inset-0.5 bg-gradient-to-tr from-white/10 to-transparent rounded-2xl blur-sm opacity-30"></div>
+<div class="relative">
+<p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Live Uptime</p>
+<p class="text-white text-3xl font-black mt-1">99.9<span class="text-primary/70 text-xl">%</span></p>
+<div class="flex gap-1 mt-3">
+<div class="w-1.5 h-3 bg-primary/40 rounded-sm"></div>
+<div class="w-1.5 h-5 bg-primary/60 rounded-sm"></div>
+<div class="w-1.5 h-4 bg-primary rounded-sm"></div>
+<div class="w-1.5 h-6 bg-primary rounded-sm"></div>
+</div>
+</div>
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-8 bg-emerald-900/30 blur-2xl rounded-full"></div>
+</div>
+<div class="glass-card p-6 rounded-2xl translate-x-8 w-48 relative" style="animation: float 6s ease-in-out infinite; animation-delay: -4s;">
+<div class="absolute -inset-0.5 bg-gradient-to-bl from-primary/20 to-transparent rounded-2xl blur-sm opacity-50"></div>
+<div class="relative">
+<p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Issues Fixed</p>
+<p class="text-white text-3xl font-black mt-1">1,000<span class="text-primary text-2xl">+</span></p>
+<div class="flex -space-x-2 mt-3">
+<div class="w-6 h-6 rounded-full border border-white/20 bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px]">bolt</span>
+</div>
+<div class="w-6 h-6 rounded-full border border-white/20 bg-slate-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px]">security</span>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-6 bg-primary/10 blur-xl rounded-full"></div>
+</div>
+</div>
+<div class="relative z-20 flex items-center gap-6 text-slate-500 text-xs font-medium tracking-wide">
+<span class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> ISO 27001 Certified</span>
+<span class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> SOC2 Type II</span>
+<span>© 2024 Infra Systems</span>
+</div>
+</div>
+<div class="w-full lg:w-2/5 h-full flex items-center justify-center p-6 lg:p-12 relative bg-[#050704]">
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+<div class="w-full max-w-md relative z-10">
+<div class="glass-card p-10 rounded-[2rem] border-emerald-500/20 shadow-2xl relative overflow-hidden">
+<div class="absolute inset-0 rounded-[2rem] border border-emerald-400/10 pointer-events-none"></div>
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+<div class="text-center mb-10">
+<h3 class="text-3xl font-black text-white tracking-tight">Access Portal</h3>
+<p class="text-slate-400 mt-3 text-sm font-medium">Securely sign in to your cloud instance</p>
+</div>
+<div class="space-y-5">
+<button class="w-full group relative flex items-center justify-center gap-3 py-4 px-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white/10 transition-all duration-300 glossy-finish">
+<svg class="w-5 h-5" viewBox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="relative z-10">Continue with Google</span>
+</button>
+<div class="relative flex items-center py-2">
+<div class="flex-grow border-t border-white/5"></div>
+<span class="flex-shrink mx-4 text-slate-500 text-[10px] uppercase tracking-[0.3em] font-bold">OR</span>
+<div class="flex-grow border-t border-white/5"></div>
+</div>
+<form action="#" class="space-y-5">
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Email Terminal</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors text-xl">alternate_email</span>
+<input class="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all" placeholder="admin@infra.io" type="email"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-center ml-1">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Access Key</label>
+<a class="text-[10px] font-bold text-primary hover:text-emerald-400 transition-colors uppercase tracking-tight" href="#">Recover Key?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors text-xl">lock_open</span>
+<input class="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<button class="w-full relative py-4 bg-gradient-to-r from-primary to-emerald-600 rounded-2xl text-slate-950 font-black text-lg shadow-[0_10px_30px_rgba(72,183,16,0.3)] hover:shadow-[0_15px_40px_rgba(72,183,16,0.5)] hover:-translate-y-0.5 transition-all duration-300 glossy-finish" type="submit">
+<span class="relative z-10">Initialize Session</span>
+</button>
+</form>
+</div>
+<div class="mt-10 text-center">
+<p class="text-slate-500 text-sm font-medium">
+                        New operator? <a class="text-primary font-bold hover:text-emerald-400 transition-colors ml-1" href="#">Request Provisioning</a>
+</p>
+</div>
+</div>
+<div class="mt-8 flex justify-center items-center gap-3 opacity-40 hover:opacity-100 transition-opacity">
+<div class="h-[1px] w-8 bg-slate-700"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-sm">verified_user</span>
+<span class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Secured by Clerk Terminal</span>
+</div>
+<div class="h-[1px] w-8 bg-slate-700"></div>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

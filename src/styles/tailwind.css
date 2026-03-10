@@ -1,4 +1,23 @@
 @import 'tailwindcss' source(none);
+
+@layer base {
+    .font-syne {
+        font-family: 'Syne', sans-serif;
+    }
+
+    .font-space-grotesk {
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .font-dm-sans {
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .font-jetbrains-mono {
+        font-family: 'JetBrains Mono', monospace;
+    }
+}
+
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @import 'tw-animate-css';
