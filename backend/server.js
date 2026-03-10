@@ -558,8 +558,8 @@ Keep your responses concise as they will be displayed in a small chat window. Do
         // stringify the chat history or manually call generateContent with the history.
         // For simplicity, we just take the last user message and pass it as the prompt,
         // or format the whole conversation. Let's format the conversation.
-        const conversationText = messages.map(m => \`\${m.role}: \${m.content}\`).join('\\n');
-        
+        const conversationText = messages.map(m => `${m.role}: ${m.content}`).join('\n');
+
         const response = await ai.models.generateContent({
             model: FLASH_LITE_MODEL,
             contents: conversationText,
@@ -578,20 +578,20 @@ Keep your responses concise as they will be displayed in a small chat window. Do
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
     console.log(`\n🚀 GCP proxy server running on http://localhost:${PORT}`);
-            console.log(`   Project ID : ${PROJECT_ID}`);
-        console.log(`   Key file   : ${KEY_FILE_ABS}`);
-        console.log(`   BigQuery   : ${BQ_FULL_TABLE}`);
-        console.log(`\nEndpoints:`);
-        console.log(`   GET /api/health`);
-        console.log(`   GET /api/gcp/projects`);
-        console.log(`   GET /api/gcp/billing`);
-        console.log(`   GET /api/gcp/compute/instances`);
-        console.log(`   GET /api/gcp/resources`);
-        console.log(`   GET /api/gcp/summary`);
-        console.log(`   GET /api/bigquery/status`);
-        console.log(`   GET /api/bigquery/cost-trend`);
-        console.log(`   GET /api/bigquery/daily-cost`);
-        console.log(`   GET /api/bigquery/top-services`);
-        console.log(`   GET /api/bigquery/project-costs`);
-    });
+    console.log(`   Project ID : ${PROJECT_ID}`);
+    console.log(`   Key file   : ${KEY_FILE_ABS}`);
+    console.log(`   BigQuery   : ${BQ_FULL_TABLE}`);
+    console.log(`\nEndpoints:`);
+    console.log(`   GET /api/health`);
+    console.log(`   GET /api/gcp/projects`);
+    console.log(`   GET /api/gcp/billing`);
+    console.log(`   GET /api/gcp/compute/instances`);
+    console.log(`   GET /api/gcp/resources`);
+    console.log(`   GET /api/gcp/summary`);
+    console.log(`   GET /api/bigquery/status`);
+    console.log(`   GET /api/bigquery/cost-trend`);
+    console.log(`   GET /api/bigquery/daily-cost`);
+    console.log(`   GET /api/bigquery/top-services`);
+    console.log(`   GET /api/bigquery/project-costs`);
+});
 
