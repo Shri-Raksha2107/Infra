@@ -78,20 +78,36 @@ export function AIRecommendations() {
     { role: 'assistant', content: 'Hello! I\'m Infra AI, your cloud optimization assistant. How can I help you today?' }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isTyping) return;
 
     const userMessage = { role: 'user', content: inputValue };
-    setMessages([...messages, userMessage]);
-
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse = generateAIResponse(inputValue);
-      setMessages((prev) => [...prev, { role: 'assistant', content: aiResponse }]);
-    }, 1000);
-
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInputValue('');
+    setIsTyping(true);
+
+    try {
+      const response = await fetch('http://localhost:3001/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: newMessages })
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to communicate with AI endpoint');
+      }
+
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
+    } catch (error) {
+      console.error(error);
+      setMessages((prev) => [...prev, { role: 'assistant', content: 'Sorry, I encountered an error connecting to the AI service. Have you added your GEMINI_API_KEY to the backend .env file?' }]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleQuestionClick = (question: string) => {
@@ -153,6 +169,14 @@ export function AIRecommendations() {
                   </div>
                 </div>
               ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="max-w-[80%] p-3 rounded-lg bg-white/5 text-slate-400 border border-white/10 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 animate-pulse text-emerald-400" />
+                    <span className="animate-pulse">Infra AI is thinking...</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Example Questions */}
@@ -184,7 +208,11 @@ export function AIRecommendations() {
                 />
                 <button
                   onClick={handleSendMessage}
-                  className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white rounded-lg transition-all shadow-lg shadow-emerald-500/30"
+                  disabled={isTyping}
+                  className={`px-4 py-2 rounded-lg transition-all shadow-lg ${isTyping
+                    ? 'bg-slate-700 text-slate-400 cursor-not-allowed shadow-none'
+                    : 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white shadow-emerald-500/30'
+                    }`}
                 >
                   <Send className="w-5 h-5" />
                 </button>
@@ -282,24 +310,3 @@ function RecommendationCard({ recommendation }: { recommendation: typeof recomme
   );
 }
 
-function generateAIResponse(question: string): string {
-  const lowerQuestion = question.toLowerCase();
-
-  if (lowerQuestion.includes('cost') && lowerQuestion.includes('increasing')) {
-    return 'Your cloud costs have increased by 8.2% this month, primarily due to: (1) New compute instances added to handle increased traffic (+$800), (2) Storage growth from logging and backups (+$400), and (3) Data transfer costs (+$200). I recommend reviewing the Cost Optimization page for detailed savings opportunities totaling $2,420/month.';
-  }
-
-  if (lowerQuestion.includes('security') && lowerQuestion.includes('risk')) {
-    return 'I\'ve detected 7 security risks across your infrastructure: 3 critical issues (public storage buckets, unencrypted database), 2 high-severity risks (open firewall ports), and 2 medium-severity issues. Your current security score is 68/100. The most urgent fix is securing the "storage-bucket-backups" which is publicly accessible.';
-  }
-
-  if (lowerQuestion.includes('optimize') || lowerQuestion.includes('infrastructure')) {
-    return 'Based on my analysis, here are the top 3 optimization opportunities: (1) Delete idle VM "vm-staging-db-02" for $520/month savings, (2) Resize overprovisioned instances for $380/month savings, and (3) Purchase committed use discounts for $1,200/month savings. Together, these could reduce your costs by 17.5%.';
-  }
-
-  if (lowerQuestion.includes('compute') || lowerQuestion.includes('trend')) {
-    return 'Your compute costs have grown from $5,290 to $6,210 over the last 3 months (+17%). Main drivers: 3 new production VMs added in January, increased usage on existing instances, and lack of committed use discounts. I recommend consolidating workloads and switching to committed use contracts.';
-  }
-
-  return 'I can help you with cost optimization, security recommendations, and infrastructure analysis. Try asking about specific resources, cost trends, or security risks. You can also use the example questions below for guidance.';
-}

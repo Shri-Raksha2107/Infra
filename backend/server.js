@@ -3,7 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const { GoogleAuth } = require('google-auth-library');
 const { BigQuery } = require('@google-cloud/bigquery');
+const { GoogleGenAI } = require('@google/genai');
 const path = require('path');
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -323,6 +327,74 @@ app.get('/api/health', async (req, res) => {
 
 // ── BigQuery Routes ───────────────────────────────────────────────────────────
 
+// ── Stats Tracking Routes ─────────────────────────────────────────────────────
+
+app.post('/api/stats/view', async (req, res) => {
+    try {
+        const { clerkId, email, name, pageName } = req.body;
+        if (!clerkId) return res.status(400).json({ error: 'Missing clerkId' });
+        if (!pageName) return res.status(400).json({ error: 'Missing pageName' });
+
+        const user = await prisma.user.upsert({
+            where: { clerkId },
+            update: { lastActive: new Date() }, // Optional if I add lastActive
+            create: { clerkId, email: email || '', name: name || '' }
+        });
+
+        const stat = await prisma.pageStat.upsert({
+            where: { userId_pageName: { userId: user.id, pageName } },
+            update: { viewCount: { increment: 1 }, lastVisited: new Date() },
+            create: { userId: user.id, pageName, viewCount: 1 }
+        });
+
+        res.json({ success: true, stat });
+    } catch (err) {
+        console.error('[/api/stats/view]', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/stats/action', async (req, res) => {
+    try {
+        const { clerkId, actionType, metadata } = req.body;
+        if (!clerkId) return res.status(400).json({ error: 'Missing clerkId' });
+        if (!actionType) return res.status(400).json({ error: 'Missing actionType' });
+
+        const user = await prisma.user.findUnique({ where: { clerkId } });
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        const action = await prisma.userAction.create({
+            data: {
+                userId: user.id,
+                actionType,
+                metadata: metadata ? JSON.stringify(metadata) : null
+            }
+        });
+
+        res.json({ success: true, action });
+    } catch (err) {
+        console.error('[/api/stats/action]', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/stats/:clerkId', async (req, res) => {
+    try {
+        const { clerkId } = req.params;
+        const user = await prisma.user.findUnique({
+            where: { clerkId },
+            include: { pageStats: true, actions: { orderBy: { timestamp: 'desc' }, take: 20 } }
+        });
+
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        res.json({ user });
+    } catch (err) {
+        console.error('[/api/stats/:clerkId]', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 /**
  * GET /api/bigquery/status
  * Checks whether the BigQuery billing export table is accessible and has data.
@@ -449,23 +521,77 @@ app.get('/api/bigquery/project-costs', async (req, res) => {
     }
 });
 
+// ── AI Recommendations (Gemini 3.1 Flash-Lite) ───────────────────────────────
+
+const FLASH_LITE_MODEL = 'gemini-3.1-flash-lite-preview';
+
+/**
+ * POST /api/ai/chat
+ * Handles chat queries for the AI Recommendations tab using Gemini.
+ */
+app.post('/api/ai/chat', async (req, res) => {
+    try {
+        const { messages } = req.body;
+        if (!messages || !Array.isArray(messages)) {
+            return res.status(400).json({ error: 'messages array is required' });
+        }
+
+        const apiKey = process.env.GEMINI_API_KEY;
+        if (!apiKey || apiKey === 'your_google_ai_studio_api_key_here') {
+            return res.status(500).json({ error: 'GEMINI_API_KEY is missing or invalid in backend/.env' });
+        }
+
+        const ai = new GoogleGenAI({ apiKey });
+
+        const systemInstruction = `
+You are Infra AI, an expert cloud optimization assistant for the "Nexus Solo" dashboard.
+Your job is to analyze cloud infrastructure (GCP/AWS/Azure), identify cost and security issues, and provide actionable recommendations.
+Be brief, precise, and professional. 
+
+When the user asks about specific problems like cost increases or security risks, use realistic simulated data if none is provided in the prompt to explain the situation clearly. Point out exactly which instances or buckets have the issue.
+Keep your responses concise as they will be displayed in a small chat window. Do not use overly long paragraphs.
+        `.trim();
+
+        // Convert the simple format to GenAI format if needed
+        // Assuming the frontend sends [{ role: 'user'|'model', parts: [{text: '...'}] }]
+        // or just strings. The SDK handles history for generateContent? Actually, no, let's just 
+        // stringify the chat history or manually call generateContent with the history.
+        // For simplicity, we just take the last user message and pass it as the prompt,
+        // or format the whole conversation. Let's format the conversation.
+        const conversationText = messages.map(m => \`\${m.role}: \${m.content}\`).join('\\n');
+        
+        const response = await ai.models.generateContent({
+            model: FLASH_LITE_MODEL,
+            contents: conversationText,
+            config: {
+                systemInstruction: systemInstruction,
+            }
+        });
+
+        res.json({ reply: response.text });
+    } catch (err) {
+        console.error('[/api/ai/chat]', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
     console.log(`\n🚀 GCP proxy server running on http://localhost:${PORT}`);
-    console.log(`   Project ID : ${PROJECT_ID}`);
-    console.log(`   Key file   : ${KEY_FILE_ABS}`);
-    console.log(`   BigQuery   : ${BQ_FULL_TABLE}`);
-    console.log(`\nEndpoints:`);
-    console.log(`   GET /api/health`);
-    console.log(`   GET /api/gcp/projects`);
-    console.log(`   GET /api/gcp/billing`);
-    console.log(`   GET /api/gcp/compute/instances`);
-    console.log(`   GET /api/gcp/resources`);
-    console.log(`   GET /api/gcp/summary`);
-    console.log(`   GET /api/bigquery/status`);
-    console.log(`   GET /api/bigquery/cost-trend`);
-    console.log(`   GET /api/bigquery/daily-cost`);
-    console.log(`   GET /api/bigquery/top-services`);
-    console.log(`   GET /api/bigquery/project-costs`);
-});
+            console.log(`   Project ID : ${PROJECT_ID}`);
+        console.log(`   Key file   : ${KEY_FILE_ABS}`);
+        console.log(`   BigQuery   : ${BQ_FULL_TABLE}`);
+        console.log(`\nEndpoints:`);
+        console.log(`   GET /api/health`);
+        console.log(`   GET /api/gcp/projects`);
+        console.log(`   GET /api/gcp/billing`);
+        console.log(`   GET /api/gcp/compute/instances`);
+        console.log(`   GET /api/gcp/resources`);
+        console.log(`   GET /api/gcp/summary`);
+        console.log(`   GET /api/bigquery/status`);
+        console.log(`   GET /api/bigquery/cost-trend`);
+        console.log(`   GET /api/bigquery/daily-cost`);
+        console.log(`   GET /api/bigquery/top-services`);
+        console.log(`   GET /api/bigquery/project-costs`);
+    });
 

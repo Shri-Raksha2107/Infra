@@ -1,9 +1,11 @@
 import { Navigate } from 'react-router';
 import { useAuth } from '@clerk/react';
 import type { ReactNode } from 'react';
+import { usePageTracking } from '../hooks/usePageTracking';
 
 export function ProtectedRoute({ children }: { children: ReactNode }) {
     const { isSignedIn, isLoaded } = useAuth();
+    usePageTracking();
 
     // Wait for Clerk to finish loading the session
     if (!isLoaded) {

@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pageStats PageStat[]
+  actions   UserAction[]
+}
+
+model PageStat {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pageName    String   
+  viewCount   Int      @default(0)
+  lastVisited DateTime @default(now())
+
+  @@unique([userId, pageName])
+}
+
+model UserAction {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  actionType String   
+  metadata   String?  
+  timestamp  DateTime @default(now())
+}
